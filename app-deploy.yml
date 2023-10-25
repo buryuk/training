@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-app
+  labels:
+    app: api-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-app
+  template:
+    metadata:
+      labels:
+        app: api-app
+    spec:
+      containers:
+        - name: yukselburak/app:latest
+          image: app
+          env:
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: username
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: password
+          - name: MONGO_INITDB_DATABASE
+            value: admin
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+    name: api-app
+    labels:
+        app: api-app
+spec:
+    selector:
+      app: api-app
+    type: LoadBalancer
+    ports:
+    - name: tcp-80
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+
