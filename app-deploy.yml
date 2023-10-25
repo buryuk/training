@@ -15,8 +15,8 @@ spec:
         app: api-app
     spec:
       containers:
-        - name: yukselburak/app:latest
-          image: app
+        - name: app
+          image: yukselburak/app:latest
           env:
           - name: MONGO_USERNAME
             valueFrom:
