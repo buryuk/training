@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: yukselburak/app:latest
+          image: yukselburak/app:v1.6
           env:
           - name: MONGO_USERNAME
             valueFrom:
@@ -43,16 +43,16 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-    name: api-app
-    labels:
-        app: api-app
-spec:
-    selector:
+  name: api-app
+  labels:
       app: api-app
-    type: LoadBalancer
-    ports:
-    - name: tcp-80
-      protocol: TCP
-      port: 80
-      targetPort: 5000
+spec:
+  selector:
+    app: api-app
+  type: LoadBalancer
+  ports:
+  - name: tcp-80
+    protocol: TCP
+    port: 80
+    targetPort: 5000
 
